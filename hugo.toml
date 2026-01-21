@@ -1,0 +1,4 @@
+baseURL = 'https://pay-tech.org/'
+languageCode = 'en-ie'
+title = 'pay-tech.org'
+theme = 'ananke'
