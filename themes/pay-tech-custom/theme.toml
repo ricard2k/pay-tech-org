@@ -1,0 +1,15 @@
+name = "Pay-Tech Custom Theme"
+license = "MIT"
+licenselink = "https://github.com/theNewDynamic/gohugo-theme-ananke/blob/master/LICENSE.md"
+description = "A customized theme based on Ananke, specifically designed for pay-tech-org - featuring infinite scroll, modern design, and payment-focused content sections"
+homepage = "https://github.com/ricard2k/pay-tech-org"
+tags = ["website", "payments", "cryptocurrency", "responsive", "infinite-scroll"]
+features = ["infinite-scroll", "payment-sections", "modern-design", "responsive"]
+min_version = "0.128.0"
+
+authors = [
+  {name = "Pay-Tech Team", homepage = "https://github.com/ricard2k/pay-tech-org"},
+  {name = "Based on Ananke by Patrick Kollitsch", homepage = "https://github.com/davidsneighbour"},
+  {name = "Based on Ananke by Regis Philibert", homepage = "https://github.com/regisphilibert"},
+  {name = "Based on Ananke by Bud Parr", homepage = "https://github.com/budparr"}
+]

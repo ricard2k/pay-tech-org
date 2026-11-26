@@ -1,0 +1,524 @@
+{{ define "main" }}
+<div class="page-wrapper">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Pay-Tech Org</h1>
+      <p class="hero-subtitle">Master the intricacies of payment technology</p>
+      <p class="hero-description">Explore comprehensive courses on payment systems, cryptography, and modern payment methods</p>
+    </div>
+  </section>
+
+  <!-- Three Sections with Infinite Scroll -->
+  <div class="sections-container">
+    
+    <!-- Section 1: General Payments Structure -->
+    <section class="content-section" data-section="general-payments">
+      <div class="section-header">
+        <h2 class="section-title">General Payments Structure</h2>
+        <p class="section-description">Understand the fundamentals of payment systems and how money moves through networks</p>
+      </div>
+      <div class="cards-grid" id="general-payments-grid">
+        <!-- Cards will be loaded here via JavaScript -->
+      </div>
+      <div class="load-more-btn" data-section="general-payments">
+        <button class="btn btn-primary">Load More</button>
+      </div>
+    </section>
+
+    <!-- Section 2: POS Cryptography -->
+    <section class="content-section" data-section="pos-cryptography">
+      <div class="section-header">
+        <h2 class="section-title">POS Cryptography</h2>
+        <p class="section-description">Deep dive into encryption, security protocols, and cryptographic techniques in point-of-sale systems</p>
+      </div>
+      <div class="cards-grid" id="pos-cryptography-grid">
+        <!-- Cards will be loaded here via JavaScript -->
+      </div>
+      <div class="load-more-btn" data-section="pos-cryptography">
+        <button class="btn btn-primary">Load More</button>
+      </div>
+    </section>
+
+    <!-- Section 3: Alternate Payment Methods -->
+    <section class="content-section" data-section="alternate-payments">
+      <div class="section-header">
+        <h2 class="section-title">Alternate Payment Methods</h2>
+        <p class="section-description">Explore emerging technologies and alternative approaches to processing payments</p>
+      </div>
+      <div class="cards-grid" id="alternate-payments-grid">
+        <!-- Cards will be loaded here via JavaScript -->
+      </div>
+      <div class="load-more-btn" data-section="alternate-payments">
+        <button class="btn btn-primary">Load More</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Loading indicator for infinite scroll -->
+  <div class="infinite-scroll-loader" id="infinite-scroll-loader">
+    <div class="loader-spinner"></div>
+    <p>Loading more content...</p>
+  </div>
+</div>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+  }
+
+  .page-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-content {
+    max-width: 800px;
+    animation: fadeInDown 0.8s ease-out;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    opacity: 0.95;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  /* Sections Container */
+  .sections-container {
+    background: #f8f9fa;
+    padding: 60px 20px;
+  }
+
+  /* Content Section */
+  .content-section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    scroll-margin-top: 100px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+  }
+
+  .section-description {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 25px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Cards Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .content-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .content-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+  }
+
+  .card-content {
+    padding: 25px;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .card-description {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+
+  .card-category {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #667eea;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .card-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .card-link:hover {
+    color: #764ba2;
+  }
+
+  /* Load More Button */
+  .load-more-btn {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .btn {
+    padding: 12px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Infinite Scroll Loader */
+  .infinite-scroll-loader {
+    text-align: center;
+    padding: 40px 20px;
+    display: none;
+  }
+
+  .infinite-scroll-loader.active {
+    display: block;
+  }
+
+  .loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f0f0f0;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+  }
+
+  /* Animations */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .hero-section {
+      padding: 50px 15px;
+      min-height: 350px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .sections-container {
+      padding: 40px 15px;
+    }
+
+    .content-section {
+      margin-bottom: 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .btn {
+      padding: 10px 30px;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  // Sample data for each section
+  const contentData = {
+    'general-payments': [
+      { icon: '💳', title: 'Payment Networks', description: 'Understand Visa, Mastercard, and other payment networks', category: 'Fundamentals' },
+      { icon: '🔄', title: 'Transaction Flow', description: 'Learn how transactions move through the system', category: 'Fundamentals' },
+      { icon: '🏦', title: 'Banking Integration', description: 'How banks connect to payment systems', category: 'Infrastructure' },
+      { icon: '📊', title: 'Settlement Process', description: 'Understanding fund settlement and reconciliation', category: 'Operations' },
+      { icon: '🛡️', title: 'Fraud Prevention', description: 'Detecting and preventing payment fraud', category: 'Security' },
+      { icon: '📱', title: 'Digital Wallets', description: 'Mobile and digital payment solutions', category: 'Modern Payments' },
+    ],
+    'pos-cryptography': [
+      { icon: '🔐', title: 'Encryption Basics', description: 'Understanding encryption in POS systems', category: 'Cryptography' },
+      { icon: '🔑', title: 'Key Management', description: 'Managing encryption keys securely', category: 'Security' },
+      { icon: '✍️', title: 'Digital Signatures', description: 'Verifying authenticity with digital signatures', category: 'Authentication' },
+      { icon: '⚔️', title: 'Cipher Suites', description: 'Common encryption algorithms and protocols', category: 'Cryptography' },
+      { icon: '🔍', title: 'Hash Functions', description: 'Data integrity with cryptographic hashing', category: 'Security' },
+      { icon: '🤝', title: 'SSL/TLS Protocol', description: 'Secure communication in POS networks', category: 'Communication' },
+    ],
+    'alternate-payments': [
+      { icon: '₿', title: 'Cryptocurrency Basics', description: 'Introduction to digital currencies', category: 'Innovation' },
+      { icon: '⛓️', title: 'Blockchain Technology', description: 'How blockchain enables new payment systems', category: 'Emerging' },
+      { icon: '👥', title: 'Peer-to-Peer Payments', description: 'Direct payment between individuals', category: 'Modern' },
+      { icon: '📡', title: 'API Payments', description: 'Payment via APIs and webhooks', category: 'Integration' },
+      { icon: '🌐', title: 'Cross-Border Payments', description: 'International payment solutions', category: 'Global' },
+      { icon: '⚡', title: 'Real-Time Payments', description: 'Instant payment settlement systems', category: 'Innovation' },
+    ]
+  };
+
+  let currentPage = {
+    'general-payments': 0,
+    'pos-cryptography': 0,
+    'alternate-payments': 0
+  };
+
+  const itemsPerPage = 3;
+
+  // Initialize and load initial content
+  document.addEventListener('DOMContentLoaded', function() {
+    loadSectionContent('general-payments');
+    loadSectionContent('pos-cryptography');
+    loadSectionContent('alternate-payments');
+
+    // Add event listeners to load more buttons
+    document.querySelectorAll('.load-more-btn button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const section = this.closest('.load-more-btn').dataset.section;
+        loadMoreContent(section);
+      });
+    });
+
+    // Infinite scroll on scroll event
+    window.addEventListener('scroll', function() {
+      const loader = document.getElementById('infinite-scroll-loader');
+      const rect = loader.getBoundingClientRect();
+      
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        // Load more content for all sections
+        Object.keys(currentPage).forEach(section => {
+          if (hasMoreContent(section)) {
+            loadMoreContent(section);
+          }
+        });
+      }
+    });
+  });
+
+  function loadSectionContent(sectionName) {
+    currentPage[sectionName] = 0;
+    const grid = document.getElementById(sectionName + '-grid');
+    grid.innerHTML = '';
+    loadMoreContent(sectionName);
+  }
+
+  function loadMoreContent(sectionName) {
+    const data = contentData[sectionName];
+    const grid = document.getElementById(sectionName + '-grid');
+    
+    if (!grid) return;
+
+    const startIndex = currentPage[sectionName] * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const itemsToAdd = data.slice(startIndex, endIndex);
+
+    if (itemsToAdd.length === 0) return;
+
+    itemsToAdd.forEach((item, index) => {
+      setTimeout(() => {
+        const card = createContentCard(item);
+        grid.appendChild(card);
+      }, index * 100);
+    });
+
+    currentPage[sectionName]++;
+
+    // Hide "Load More" button if no more content
+    const loadMoreBtn = document.querySelector(`.load-more-btn[data-section="${sectionName}"]`);
+    if (!hasMoreContent(sectionName)) {
+      loadMoreBtn.style.display = 'none';
+    }
+  }
+
+  function hasMoreContent(sectionName) {
+    const data = contentData[sectionName];
+    return (currentPage[sectionName] * itemsPerPage) < data.length;
+  }
+
+  function createContentCard(item) {
+    const card = document.createElement('div');
+    card.className = 'content-card';
+    card.innerHTML = `
+      <div class="card-image">${item.icon}</div>
+      <div class="card-content">
+        <h3 class="card-title">${item.title}</h3>
+        <p class="card-description">${item.description}</p>
+        <div class="card-meta">
+          <span class="card-category">${item.category}</span>
+          <a href="#" class="card-link">Learn →</a>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+</script>
+
+{{ end }}
+

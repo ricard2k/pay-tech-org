@@ -1,0 +1,63 @@
+{
+  "name": "pay-tech-custom",
+  "description": "A customized Hugo theme based on Ananke, specifically designed for pay-tech-org - featuring infinite scroll, modern design, and payment-focused content sections",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": "ricard2k/pay-tech-org",
+  "author": "Pay-Tech Team (https://github.com/ricard2k/pay-tech-org)",
+  "maintainers": [
+    {
+      "name": "Pay-Tech Team",
+      "url": "https://github.com/ricard2k/pay-tech-org"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Regis Philibert",
+      "url": "https://github.com/regisphilibert"
+    },
+    {
+      "name": "Patrick Kollitsch",
+      "url": "https://github.com/davidsneighbour"
+    }
+  ],
+  "bugs": "https://github.com/ricard2k/pay-tech-org/issues",
+  "homepage": "https://github.com/ricard2k/pay-tech-org#readme",
+  "keywords": [
+    "hugo",
+    "gohugo",
+    "hugo-theme",
+    "gohugo-theme",
+    "hugo-module",
+    "gohugo-module"
+  ],
+  "dependencies": {
+    "cssnano": "7.0.7",
+    "postcss": "8.5.3",
+    "postcss-preset-env": "10.1.6",
+    "tachyons": "4.12.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@davidsneighbour/markdownlint-config": "2025.1.5",
+    "@davidsneighbour/release-config": "2025.1.5",
+    "@davidsneighbour/tools": "2025.1.5",
+    "dotenv": "16.5.0"
+  },
+  "scripts": {
+    "release": "wireit",
+    "release:minor": "wireit",
+    "release:pre": "wireit"
+  },
+  "wireit": {
+    "release": {
+      "command": "commit-and-tag-version --sign -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" -- --no-verify"
+    },
+    "release:minor": {
+      "command": "commit-and-tag-version --release-as minor --sign -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" -- --no-verify"
+    },
+    "release:pre": {
+      "command": "commit-and-tag-version --sign -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" --prerelease prerelease -- --no-verify"
+    }
+  }
+}
